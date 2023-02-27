@@ -11,6 +11,7 @@ app.use(express.json());
 
 //routers
 const gamesController = require('./games/gamesController');
+const usersController = require('./user/userController');
 
 //models
 const Game = require('./models/GameModel');
@@ -33,6 +34,7 @@ connection
 
 //rotas games
 app.use('/', gamesController);
+app.use('/', usersController)
 
 
 
