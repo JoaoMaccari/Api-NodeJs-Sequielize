@@ -32,27 +32,24 @@ router.post('/authenticate' , (req, res) =>{
     var email = req.body.email;
     var password = req.body.password
 
-    Users.findOne({where:{email:email}}).then(user =>{
-        if(user != undefined){
+    Users.findOne({where:{email:email, password:password}}).then(user =>{
+        if(user){
 
-            
-
-            Users.findOne({where:{password:password}}).then(user=>{
-
-                if(password != undefined){
-                    res.status = 200;
-                    res.json({token: 'token falso'})
-                }else{
-                    res.status = 401;
-                    res.json({erro: 'credenciais invalidas'})
-                }
+            res.status(200);
+            res.json({token: 'token falso'})
                 
-            })
-            
         }else{
-            res.sendStatus(404)
+            res.status(404)
+            res.json({erro :"email invalido ou senha invalidos"})
         }
+
+
+       
+
     })
+
+
+  
 })
 
 
