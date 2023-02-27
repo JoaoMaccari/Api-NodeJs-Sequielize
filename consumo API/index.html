@@ -11,6 +11,10 @@
     <div class="container">
         <hr>
         <h4>Lista Games</h4>
+
+        <input type="text" name="email" id="email" placeholder="insira o email"><br>
+        <input type="text" name="passwotd" id="password" placeholder="********">
+        <button type="submit" onclick="login()">entrar</button>
         <ul id="games">
     
         </ul>
@@ -38,62 +42,78 @@
 
 <script>
 
-    axios.get('http://localhost:8080/games').then(response =>{
+    function login(){
+        var emailField = document.getElementById('email');
+        var passwordField = document.getElementById('password')
+
+        var email = emailField.value;
+        var password = passwordField.value
+
+        axios.post("http://localhost:8080/auth",{
+            email,
+            password
+        }).then(res =>{
+            var token = res.data.token
+            console.log(res.data)
+            localStorage.setItem("token", token)
+            
+        }).catch(err =>{
+            alert('invalido')
+        })
+
+    }
+
+    var axiosConfig ={
+        headers: {
+            Authorization :'Bearer '+localStorage.getItem('token')
+        }
+    }
+
+    axios.get('http://localhost:8080/games',axiosConfig).then(response =>{
+            
         console.log(response)
-        console.log(response.data)
-        console.log(response.status)
-        console.log(response.headers)
 
-        //return response.json()
-    }).catch(err =>{
-        console.log(err)
-    })
+        //var games é um arrey recebe as informações da api
+        //data contem as iformações que foram inseridas no db
+        var games = response.data
+        var list = document.getElementById('games');
 
-    // axios.get('http://localhost:8080/games').then(response =>{
+        //foreach que vai percorrer todos os itens da api
+        games.forEach( game =>{
             
-    //     console.log(response)
+            var item = document.createElement('li');
 
-    //     //var games é um arrey recebe as informações da api
-    //     //data contem as iformações que foram inseridas no db
-    //     var games = response.data
-    //     var list = document.getElementById('games');
+            item.setAttribute('data-id', game.id);
+            item.setAttribute('data-titulo', game.title);
+            item.setAttribute('data-ano', game.ano);
+            item.setAttribute('data-preco', game.preco)
 
-    //     //foreach que vai percorrer todos os itens da api
-    //     games.forEach( game =>{
-            
-    //         var item = document.createElement('li');
+            //passo as info da data da api para o item gerado 
+            //aqui eu tenho que pergar os nomes exatamente como foi criado no db e api
+            item.innerHTML = "R$ " + game.preco + " - " + game.title + " - " + game.ano ;
 
-    //         item.setAttribute('data-id', game.id);
-    //         item.setAttribute('data-titulo', game.titulo);
-    //         item.setAttribute('data-ano', game.ano);
-    //         item.setAttribute('data-preco', game.preco)
-
-    //         //passo as info da data da api para o item gerado 
-    //         //aqui eu tenho que pergar os nomes exatamente como foi criado no db e api
-    //         item.innerHTML = "R$ " + game.preco + " - " + game.titulo + " - " + game.ano ;
-
-    //         var deleteBtn = document.createElement('button');
-    //         deleteBtn.innerHTML='Deletar'
-    //         deleteBtn.addEventListener('click', function(){
+            var deleteBtn = document.createElement('button');
+            deleteBtn.innerHTML='Deletar'
+            deleteBtn.addEventListener('click', function(){
                 
-    //             deleteGame(item)
-    //         });
+                deleteGame(item)
+            });
 
-    //         var editBtn = document.createElement('button')
-    //         editBtn.innerHTML = 'Editar'
-    //         editBtn.addEventListener('click', function(){
-    //             loadForm(item)
-    //         })
+            var editBtn = document.createElement('button')
+            editBtn.innerHTML = 'Editar'
+            editBtn.addEventListener('click', function(){
+                loadForm(item)
+            })
 
-    //         item.appendChild(editBtn);
-    //         item.appendChild(deleteBtn);
+            item.appendChild(editBtn);
+            item.appendChild(deleteBtn);
 
-    //         list.appendChild(item);
-    //     })
+            list.appendChild(item);
+        })
 
-    // }).catch(error =>{
-    //     console.log(error)
-    // })
+    }).catch(error =>{
+        console.log(error)
+    })
         
 
 </script>

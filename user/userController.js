@@ -32,8 +32,16 @@ router.post('/create', (req, res) =>{
                 email: email,
                 password: hash
             })
-            .then(()=>{
-                res.status(200)
+            .then(user =>{
+
+                let token = jwt.sign({user:user}, jwtSecret,{expiresIn:'48h'});
+                
+                res.json({
+                    user:user,
+                    token: token
+                })
+            }).catch(err =>{
+                res.status(500).json(err)
             })
         
         }else{
@@ -41,46 +49,41 @@ router.post('/create', (req, res) =>{
         }
 
 
-    })
-
-   
-        
+    })   
     
 })
 
 
-router.post('/authenticate' , (req, res) =>{
-    var email = req.body.email;
-    var password = req.body.password
+router.post('/auth' , (req, res) =>{
+    let {email, password} = req.body;
 
-    Users.findOne({where:{email:email}}).then(user =>{
-        if(user != undefined){
-
-            var correct = bcrypt.compareSync(password , user.password);
-
-            jwt.sign({email: email, password: password}),jwtSecret,{expiresIn:'48h'},(err, token)=>{
-                if(err){
-                    res.status(400);
-                    res.json({err: 'falha interna'})
-                }else{
-                    if(correct){
-                        res.status(200);
-                        res.json({token: token})
-                    }
-                }
-            }
-
-
-           
-                
-        }else{
-            res.status(404)
-            res.json({erro :"email ou senha invalidos"})
+    Users.findOne({
+        where: {
+            email:email
         }
+    }).then(user =>{
 
+        if(!user){
+            res.status(404).json({msg: "usuario nao encontrado"})
+        }else{
+            
+            if(bcrypt.compareSync(password, user.password)){
+                
+                let token = jwt.sign({user:user}, jwtSecret,{expiresIn:'48h'});
 
-       
+                res.json({
+                    user:user,
+                    token: token
+                })
+                 
+            }else{
+                res.status(401).json({msg: "senha incorreta"})
+            }
+            
 
+        }
+    }).catch(err =>{
+        res.status(500).json(err)
     })
 
 

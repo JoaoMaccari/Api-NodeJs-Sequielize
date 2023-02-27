@@ -1,13 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+const auth = require('../middleware/auth')
+
 
 const connection = require('../database/connection');
 const Games = require('../models/GameModel');
 
-router.get("/games", (req, res) =>{
+router.get("/games", auth ,(req, res) =>{
     Games.findAll()
         .then(games => res.json(games))
+        
         .catch(err =>{
             res.sendStatus(500);
             console.log(err);
