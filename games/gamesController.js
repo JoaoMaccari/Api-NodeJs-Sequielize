@@ -7,7 +7,7 @@ const auth = require('../middleware/auth')
 const connection = require('../database/connection');
 const Games = require('../models/GameModel');
 
-router.get("/games", auth ,(req, res) =>{
+router.get("/games" ,(req, res) =>{
     Games.findAll()
         .then(games => res.json(games))
         
