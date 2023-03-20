@@ -43,7 +43,7 @@ router.get('/game/:id', (req, res)=>{
     }
 })
 
-
+/* cria o game*/
 router.post('/game', (req, res) =>{
     let {title, ano, preco} = req.body;
 
