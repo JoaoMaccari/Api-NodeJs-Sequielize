@@ -27,21 +27,23 @@
         <div class="container mt-4 shadow-lg p-3 mb-5 bg-body rounded" >
 
              
-            <button type="button" id="btnCriar" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalArtigo">
+            <button type="button" id="btnCriar" class="btn btn-primary" data-toggle="modal" >
                 Adicionar
             </button>
+
+
             <table id="tabelaVendas" class="table mt-2 table-bordered table-striped">
                 <thead>
                     <tr class="text-center">
                         <th>ID</th>
-                        <th>Nome</th>
+                        <th>Titulo</th>
                         <th>Preço</th>
                         <th>Ano</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody id="table_body">
 
                 </tbody>
 
@@ -52,7 +54,7 @@
               <!-- Button trigger modal -->
              
             <!-- Modal -->
-            <div class="modal fade" id="modalArtigo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="modalVendas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-primary text-white">
