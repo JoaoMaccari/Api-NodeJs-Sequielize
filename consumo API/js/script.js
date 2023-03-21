@@ -1,6 +1,6 @@
 
 const url = 'http://localhost:8080/games'
-const tabela = document.getElementById('table_body')
+const tabelaCorpo = document.getElementById('table_body')
 let resultados = ''
 
 const modalVendas = new bootstrap.Modal(document.getElementById('modalVendas'))
@@ -19,28 +19,37 @@ btnCriar.addEventListener('click', ()=>{
 })
 
 
-axios.get(url)
-    .then(response =>{
-
-        var vendas = response.data
-        console.log(vendas)
-       
-        vendas.forEach(venda => {
-            
-            resultados +=  `
-                                <tr>
-                                    <td>${venda.id}</td>
-                                    <td>${venda.title}</td>
-                                <tr/>
+    axios.get(url)
+        .then(response =>{
         
-                            `
-           console.log(resultados)
            
-            tabela.innerHTML = resultados
-        });
+            var vendas = response.data
+            
+            
         
-       
-    })
+            // vendas.forEach(venda => {
+                
+            //     resultados +=  `
+            //                         <tr>
+            //                             <td>${venda.id}</td>
+            //                             <td>${venda.title}</td>
+            //                             <td>${venda.preco}</td>
+            //                             <td>${venda.ano}</td>
+            //                             <td class="text-center"><a class=" btnEditar btn btn-primary">Editar</a><a class=" btnApagar btn btn-danger">Apagar</a></td>
+            //                         <tr/>
+            
+            //                     `
+            
+            
+            //     tabela.innerHTML = resultados
+
+            // });
+            
+        
+        })
+   
+
+
 
 
 
