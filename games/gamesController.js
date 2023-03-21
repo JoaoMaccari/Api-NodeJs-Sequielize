@@ -59,6 +59,7 @@ router.post('/game', (req, res) =>{
     }
 })
 
+/*  atualiza     */ 
 router.put('/game/:id', (req, res) =>{
     let {title, ano, preco} = req.body;
 

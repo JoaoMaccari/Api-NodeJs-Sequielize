@@ -1,126 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
-    <title>Loja</title>
-</head>
-<body>
-    <div class="container">
-        <hr>
-        <h4>Lista Games</h4>
-
-        <!-- <input type="text" name="email" id="email" placeholder="insira o email"><br>
-        <input type="text" name="passwotd" id="password" placeholder="********">
-        <button type="submit" onclick="login()">entrar</button>
-         -->
-        <ul id="games">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
     
-        </ul>
-    
-        <hr>
-        <h4>Cadastro de game</h4>
-        <input type="text" name="titulo" id="titulo" placeholder="titulo"><br>
-        <input type="number" name="ano" id="ano" placeholder="ano"><br>
-        <input type="number" name="preco" id="preco" placeholder="preco"><br>
-        <button type="button" onclick="createGame()">Criar</button> 
-        <hr>
-        <h4>Editar Game</h4>
-        <input type="text" name="idEdit" id="idEdit" placeholder="ID" readonly hidden><br>
-        <input type="text" name="titleEdit" id="titleEdit"><br>
-        <input type="number" name="yearEdit" id="yearEdit"><br>
-        <input type="number" name="priceEdit" id="priceEdit"><br>
-        <button type="button" onclick="updateGame()">Editar</button>
-
-    </div>
-   
-    
-</body>
-
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
-
-    <script src="js/script.js"></script>
-    <script src="js/login.js"></script>
-
-<!-- <script>
-
-    function login(){
-        var emailField = document.getElementById('email');
-        var passwordField = document.getElementById('password')
-
-        var email = emailField.value;
-        var password = passwordField.value
-
-        axios.post("http://localhost:8080/auth",{
-            email,
-            password
-        }).then(res =>{
-            var token = res.data.token
-            console.log(res.data)
-            localStorage.setItem("token", token)
-            
-        }).catch(err =>{
-            alert('invalido')
-        })
-
-    }
-
-    var axiosConfig ={
-        headers: {
-            Authorization :'Bearer '+localStorage.getItem('token')
-        }
-    }
-
-    axios.get('http://localhost:8080/games',axiosConfig).then(response =>{
-            
-        console.log(response)
-
-        //var games é um arrey recebe as informações da api
-        //data contem as iformações que foram inseridas no db
-        var games = response.data
-        var list = document.getElementById('games');
-
-        //foreach que vai percorrer todos os itens da api
-        games.forEach( game =>{
-            
-            var item = document.createElement('li');
-
-            item.setAttribute('data-id', game.id);
-            item.setAttribute('data-titulo', game.title);
-            item.setAttribute('data-ano', game.ano);
-            item.setAttribute('data-preco', game.preco)
-
-            //passo as info da data da api para o item gerado 
-            //aqui eu tenho que pergar os nomes exatamente como foi criado no db e api
-            item.innerHTML = "R$ " + game.preco + " - " + game.title + " - " + game.ano ;
-
-            var deleteBtn = document.createElement('button');
-            deleteBtn.innerHTML='Deletar'
-            deleteBtn.addEventListener('click', function(){
+        <link rel="stylesheet" href="css/style.css">
                 
-                deleteGame(item)
-            });
+        <!-- CSS alertfy -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+        <!-- Default theme -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+        <title>Loja</title>
 
-            var editBtn = document.createElement('button')
-            editBtn.innerHTML = 'Editar'
-            editBtn.addEventListener('click', function(){
-                loadForm(item)
-            })
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
-            item.appendChild(editBtn);
-            item.appendChild(deleteBtn);
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
-            list.appendChild(item);
-        })
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script> -->
 
-    }).catch(error =>{
-        console.log(error)
-    })
+
+    </head>
+
+    <body>
+        <div class="container mt-4 shadow-lg p-3 mb-5 bg-body rounded" >
+
+             
+            <button type="button" id="btnCriar" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalArtigo">
+                Adicionar
+            </button>
+            <table id="tabelaVendas" class="table mt-2 table-bordered table-striped">
+                <thead>
+                    <tr class="text-center">
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Ano</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                </tbody>
+
+            </table>
+
+
+         
+              <!-- Button trigger modal -->
+             
+            <!-- Modal -->
+            <div class="modal fade" id="modalArtigo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Venda</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                              <label for="titulo" class="col-form-label">Título:</label>
+                              <input type="text" class="form-control" id="inputTitulo" autofocus>
+                            </div>
+                            <div class="mb-3">
+                              <label for="ano" class="col-form-label">Ano</label>
+                              <textarea class="form-control" id="inputAno"></textarea>
+                            </div>
+                          <div class="mb-3">
+                            <label for="preco" class="col-form-label">Preço</label>
+                            <textarea class="form-control" id="inputPreco"></textarea>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                              <button type="submit" class="btn btn-primary">Salvar</button>
+                          </div>
+                        </form>
+                    
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- <hr>
+            <h4>Lista Games</h4>
+
+            <input type="text" name="email" id="email" placeholder="insira o email"><br>
+            <input type="text" name="passwotd" id="password" placeholder="********">
+            <button type="submit" onclick="login()">entrar</button>
+           
+            <ul id="games">
+        
+            </ul>
+        
+            <hr>
+            <h4>Cadastro de game</h4>
+            <input type="text" name="titulo" id="titulo" placeholder="titulo"><br>
+            <input type="number" name="ano" id="ano" placeholder="ano"><br>
+            <input type="number" name="preco" id="preco" placeholder="preco"><br>
+            <button type="button" onclick="createGame()">Criar</button> 
+            <hr>
+            <h4>Editar Game</h4>
+            <input type="text" name="idEdit" id="idEdit" placeholder="ID" readonly hidden><br>
+            <input type="text" name="titleEdit" id="titleEdit"><br>
+            <input type="number" name="yearEdit" id="yearEdit"><br>
+            <input type="number" name="priceEdit" id="priceEdit"><br>
+            <button type="button" onclick="updateGame()">Editar</button> -->
+
+
+            
+
+        </div>
+      
+    
+       
+
+        <!-- axios -->
+        <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+        <!-- JavaScript ALERTFY -->
+        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+       
+      
+
+        <script src="js/script.js"></script>
+        <script src="js/login.js"></script>
         
 
-</script> -->
+       
+    </body>
+
+
 
 
 </html>

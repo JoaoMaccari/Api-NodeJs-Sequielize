@@ -1,3 +1,5 @@
+const url = 'http://localhost:8080/games'
+
 
 var axiosConfig ={
     headers: {
@@ -5,7 +7,7 @@ var axiosConfig ={
     }
 }
 
-
+/*             CRIA             */ 
 function createGame(){
     var titleInput = document.getElementById('titulo');
     var anoInput = document.getElementById('ano');
@@ -32,6 +34,46 @@ function createGame(){
 }
 
 
+/*             ATUALIZA          */ 
+
+function updateGame(){
+    var idInput = document.getElementById('idEdit')
+    var titleInput = document.getElementById('titleEdit');
+    var anoInput = document.getElementById('yearEdit');
+    var precoInput = document.getElementById('priceEdit')
+
+    var game = {
+        title: titleInput.value,
+        ano: anoInput.value,
+        preco: precoInput.value
+    }
+
+    var id = idInput.value
+
+    axios.put('http://localhost:8080/game/'+id, game).then(response =>{
+        if(response.status == 200){
+            alert('game atualizado')
+            //location.reload()
+        }
+    }).catch(err =>{
+
+    });
+}
+
+
+function loadForm(listItem){
+    var id = listItem.getAttribute('data-id');
+    var titulo = listItem.getAttribute('data-titulo')
+    var ano = listItem.getAttribute('data-ano');
+    var preco = listItem.getAttribute('data-preco')
+
+    document.getElementById('idEdit').value = id
+    document.getElementById('titleEdit').value = titulo
+    document.getElementById('yearEdit').value = ano
+    document.getElementById('priceEdit').value = preco
+}
+
+/*             LISTA            */ 
 axios.get('http://localhost:8080/games',axiosConfig).then(response =>{
         
     console.log(response)
@@ -77,4 +119,22 @@ axios.get('http://localhost:8080/games',axiosConfig).then(response =>{
 }).catch(error =>{
     console.log(error)
 })
+
+
+/*   DELETA   */ 
+
+
+function deleteGame(listItem){
+    var id = listItem.getAttribute('data-id');
+    console.log(id);
+    axios.delete('http://localhost:8080/game/'+id).then(response =>{
+        alert('game deletado')
+       //location.reload()
+    }).catch(err =>{
+        console.log(err)
+    })
+
+
+}
+
     
