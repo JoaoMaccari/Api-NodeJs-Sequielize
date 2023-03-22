@@ -19,32 +19,123 @@ btnCriar.addEventListener('click', ()=>{
 })
 
 
+/*             ATUALIZA          */ 
+
+function updateGame(){
+
+    
+
+    var idInput = document.getElementById('inputId')
+    var titleInput = document.getElementById('inputTitulo');
+    var anoInput = document.getElementById('inputAno');
+    var precoInput = document.getElementById('inputPreco')
+
+    var game = {
+        title: titleInput.value,
+        ano: anoInput.value,
+        preco: precoInput.value
+    }
+
+
+    var id = idInput.value
+
+    console.log(game, id)
+
+    axios.put('http://localhost:8080/game/'+id, game).then(response =>{
+        if(response.status == 200){
+            alert('game atualizado')
+            //location.reload()
+        }
+    }).catch(err =>{
+
+    });
+}
+
+
+
+function loadForm(linha){
+
+    //btnCriar = document.getElementById('btnSalvar')
+
+    modalVendas.show()
+
+    var id = linha.getAttribute('id')
+    var titulo = linha.getAttribute('titulo')
+    var preco = linha.getAttribute('preco')
+    var ano = linha.getAttribute('ano')
+
+    document.getElementById('inputId').value = id
+    document.getElementById('inputTitulo').value = titulo
+    document.getElementById('inputAno').value = ano
+    document.getElementById('inputPreco').value = preco
+    
+    
+
+   
+    
+}
+
+
+
+/*          LISTA DADOS       */ 
     axios.get(url)
-        .then(response =>{
+    .then(response =>{
         
            
             var vendas = response.data
             
-            
-        
-            // vendas.forEach(venda => {
-                
-            //     resultados +=  `
-            //                         <tr>
-            //                             <td>${venda.id}</td>
-            //                             <td>${venda.title}</td>
-            //                             <td>${venda.preco}</td>
-            //                             <td>${venda.ano}</td>
-            //                             <td class="text-center"><a class=" btnEditar btn btn-primary">Editar</a><a class=" btnApagar btn btn-danger">Apagar</a></td>
-            //                         <tr/>
-            
-            //                     `
-            
-            
-            //     tabela.innerHTML = resultados
+            vendas.forEach(venda =>{
+                var row = tabelaCorpo.insertRow(-1)
+                row.setAttribute('id', venda.id)
+                row.setAttribute('titulo', venda.title)
+                row.setAttribute('preco', venda.preco)
+                row.setAttribute('ano', venda.ano)
 
-            // });
-            
+                var btnEdit = document.createElement('button')
+                btnEdit.innerHTML ="Editar"
+                btnEdit.addEventListener('click', function(){
+                    loadForm(row)
+                    //console.log(row)
+                })
+
+                var btnDelet = document.createElement('button')
+                btnDelet.innerHTML = "Deletar"
+
+                var td_id = row.insertCell()
+                var td_titulo = row.insertCell()
+                var td_preco = row.insertCell()
+                var td_ano = row.insertCell()
+                var td_acoes = row.insertCell()
+
+                td_id.innerText = venda.id
+                td_id.setAttribute('td_id', venda.id)
+                td_titulo.innerText = venda.title
+                td_titulo.setAttribute('td_titulo', venda.title)
+                td_preco.innerText = venda.preco
+                td_preco.setAttribute('td_preco', venda.preco)
+                td_ano.innerText = venda.ano
+                td_ano.setAttribute('td_ano', venda.ano)
+                td_acoes.appendChild(btnEdit)
+                td_acoes.appendChild(btnDelet)
+
+               
+
+                
+               
+                var deleteBtn = document.createElement('button');
+                deleteBtn.innerHTML='Deletar'
+                deleteBtn.addEventListener('click', function(){
+                    
+                    deleteGame(row)
+                });
+
+                  
+                
+
+                
+            })
+        
+    
         
         })
    
@@ -71,30 +162,31 @@ btnCriar.addEventListener('click', ()=>{
 // }
 
 /*             CRIA             */ 
-// function createGame(){
-//     var titleInput = document.getElementById('titulo');
-//     var anoInput = document.getElementById('ano');
-//     var precoInput = document.getElementById('preco')
+function createGame(){
+    var titleInput = document.getElementById('inputTitulo');
+    var anoInput = document.getElementById('inputAno');
+    var precoInput = document.getElementById('inputPreco')
 
-//     var game = {
-//         title: titleInput.value,
-//         ano: anoInput.value,
-//         preco: precoInput.value
-//     }
+    var game = {
+        title: titleInput.value,
+        ano: anoInput.value,
+        preco: precoInput.value
+    }
 
-//     console.log(game)
+    console.log(game)
 
-//     axios.post('http://localhost:8080/game', game).then(response =>{
-//         if(response.status == 200){
-//             alert('game cadastrado"')
-//            // location.reload()
-//         }else{
-//             console.log('erro')
-//         }
-//     }).catch(err =>{
+    modalVendas.hide()
+    axios.post('http://localhost:8080/game', game).then(response =>{
+        if(response.status == 200){
+            alert('game cadastrado"')
+           // location.reload()
+        }else{
+            console.log('erro')
+        }
+    }).catch(err =>{
 
-//     });
-// }
+    });
+}
 
 
 // /*             ATUALIZA          */ 

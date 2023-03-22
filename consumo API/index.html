@@ -66,20 +66,25 @@
                     <div class="modal-body">
                         <form>
                             <div class="mb-3">
+                               
+                                <input type="text" class="form-control" id="inputId" hidden>
+                            </div>
+                            <div class="mb-3">
                               <label for="titulo" class="col-form-label">Título:</label>
                               <input type="text" class="form-control" id="inputTitulo" autofocus>
                             </div>
                             <div class="mb-3">
                               <label for="ano" class="col-form-label">Ano</label>
-                              <textarea class="form-control" id="inputAno"></textarea>
+                              <input type="number" class="form-control" id="inputPreco">
                             </div>
                           <div class="mb-3">
                             <label for="preco" class="col-form-label">Preço</label>
-                            <textarea class="form-control" id="inputPreco"></textarea>
+                            <input type="number" class="form-control" id="inputAno">
                           </div>
                           <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                              <button type="submit" class="btn btn-primary">Salvar</button>
+                              <button type="button" id="btnSalvar" class=" btn btn-primary" onclick="createGame()">Salvar</button>
+                              <button type="button" id="btnEditar" class=" btn btn-primary" onclick="updateGame()">Atualizar</button>
                           </div>
                         </form>
                     
