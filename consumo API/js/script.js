@@ -55,7 +55,11 @@ function updateGame(){
 
 function loadForm(linha){
 
-    //btnCriar = document.getElementById('btnSalvar')
+    var btn1 = document.getElementById('btnSalvar');
+    btn1.classList.add('esconde')
+
+    var btn2 = document.getElementById('btnEditar')
+    btn2.classList.remove('esconde')
 
     modalVendas.show()
 
@@ -163,19 +167,26 @@ function loadForm(linha){
 
 /*             CRIA             */ 
 function createGame(){
+
+    var btn1 = document.getElementById('btnSalvar');
+    btn1.classList.remove('esconde')
+
+    var btn2 = document.getElementById('btnEditar')
+    btn2.classList.add('mostra')
+
     var titleInput = document.getElementById('inputTitulo');
     var anoInput = document.getElementById('inputAno');
-    var precoInput = document.getElementById('inputPreco')
+    var precoInput = document.getElementById('inputPreco');
 
     var game = {
         title: titleInput.value,
         ano: anoInput.value,
-        preco: precoInput.value
+        preco: precoInput.value,
     }
 
-    console.log(game)
+    console.log(game);
 
-    modalVendas.hide()
+    modalVendas.hide();
     axios.post('http://localhost:8080/game', game).then(response =>{
         if(response.status == 200){
             alert('game cadastrado"')

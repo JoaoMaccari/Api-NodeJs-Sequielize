@@ -7,6 +7,12 @@ table thead{
     color: white;
 }
 
-/* #btnEditar{
-    display: none;
-} */
+
+
+.esconde{
+    display: none !important;
+}
+
+.mostra{
+    display:inline !important;;
+}
