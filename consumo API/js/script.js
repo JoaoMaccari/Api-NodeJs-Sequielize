@@ -14,35 +14,30 @@ const modalVendas = new bootstrap.Modal(document.getElementById('modalVendas'))
 const formularioVenda = document.querySelector('form')
 
 
-var clienteInput = document.getElementById('inputCliente');
-var quantidadeInput = document.getElementById('inputQuantidade');
-var produtoInput = getProduto()
-var milheiroInput = document.getElementById('inputMilheiro')
-var socioInput = getSocio()
-var valorVenda = vendaValor(quantidadeInput, milheiroInput)
+// var clienteInput = document.getElementById('inputCliente');
+// var quantidadeInput = document.getElementById('inputQuantidade');
+// var produtoInput = getProduto()
+// var milheiroInput = document.getElementById('inputMilheiro')
+// var socioInput = getSocio()
+// var valorVenda = vendaValor(quantidadeInput, milheiroInput)
 
 
 
-let opcao =''
+//let opcao =''
 
 btnCriar.addEventListener('click', ()=>{
 
-    // let el = document. getElementById('btnEditar');
-    // //el. classList. remove('teste');
-    // el. classList. add('esconde');
-
-    // let el2 = document. getElementById('btnSalvar');
-    // el2. classList. add('mostra');
-
-    clienteInput.value = ''
-    quantidadeInput.value = ''
-    produtoInput.value = ''
-    milheiroInput = ''
-    socioInput = ''
-    valorVenda = ''
-
-    opcao = 'criar'
     modalVendas.show()
+
+    // clienteInput.value = ''
+    // quantidadeInput.value = ''
+    // produtoInput.value = ''
+    // milheiroInput = ''
+    // socioInput = ''
+    // valorVenda = ''
+    
+    //opcao = 'criar'
+    
 })
 
 
@@ -51,50 +46,54 @@ btnCriar.addEventListener('click', ()=>{
 
 function updateGame(){
 
+    var idInput = document.getElementById('inputId')
+    var clienteInput = document.getElementById('inputCliente');
+
+    var quantidadeInput = document.getElementById('inputQuantidade').value;
+    var $quantidade = parseFloat(quantidadeInput)
+    console.log($quantidade, typeof($quantidade))
+    var produtoInput = document.getElementById('inputProduto');
+
+    var milheiroInput = document.getElementById('inputMilheiro').value;
+    var $milheiro = parseFloat(milheiroInput);
+   
+    var socioInput = document.getElementById('inputSocio');
+
+    var valorVenda = vendaValor($quantidade, $milheiro)
+
     
 
-    var idInput = document.getElementById('inputId')
-    var titleInput = document.getElementById('inputTitulo');
-    var anoInput = document.getElementById('inputAno');
-    var precoInput = document.getElementById('inputPreco')
-
-    var game = {
-        title: titleInput.value,
-        ano: anoInput.value,
-        preco: precoInput.value
+    var venda = {
+        cliente: clienteInput.value,
+        quantidade: $quantidade,
+        produto: produtoInput.value,
+        milheiro: $milheiro,
+        recebeu: socioInput.value,
+        valorVenda : valorVenda
     }
 
 
     var id = idInput.value
 
-    console.log(game, id)
+    console.log(venda, id)
+    
 
-    // axios.put('http://localhost:8080/game/'+id, game).then(response =>{
-    //     if(response.status == 200){
-    //         alert('game atualizado')
-    //         modalVendas.hide()
-    //         location.reload()
-    //     }
-    // }).catch(err =>{
+    axios.put('http://localhost:8080/venda/'+id, venda).then(response =>{
+        if(response.status == 200){
+            alert('game atualizado')
+            modalVendas.hide()
+            location.reload()
+        }
+    }).catch(err =>{
 
-    // });
+    });
 }
 
 
 
 function loadForm(linha){
 
-    let el = document. getElementById('btnEditar');
-    el. classList. remove('esconde');
-    el. classList. add('mostra');
-
-    let el2 = document. getElementById('btnSalvar');
-    el2. classList. add('esconde');
-    
-
     modalVendas.show()
-
-    
 
     var id = linha.getAttribute('id')
     var cliente = linha.getAttribute('cliente')
@@ -102,7 +101,7 @@ function loadForm(linha){
     var produto = linha.getAttribute('produto')
     var milheiro = linha.getAttribute('milheiro')
     var recebeu = linha.getAttribute('recebeu')
-    //var valorVenda = linha.getAttribute('valorVenda')
+    var valorVenda = linha.getAttribute('valorVenda')
 
     document.getElementById('inputId').value = id
     document.getElementById('inputCliente').value = cliente
@@ -110,6 +109,7 @@ function loadForm(linha){
     document.getElementById('inputProduto').value = produto
     document.getElementById('inputMilheiro').value = milheiro
     document.getElementById('inputSocio').value = recebeu
+    document.getElementById('valorVenda').value = valorVenda
     
     
     
@@ -287,7 +287,7 @@ function vendaValor(q, m){
     
     if (q >= 10000){
         let valor =  (q * m) / 1000
-       // console.log("valor maior que 10k: " + valor, typeof(valor))
+        console.log("valor maior que 10k: " + valor, typeof(valor))
        
 
 
@@ -295,7 +295,7 @@ function vendaValor(q, m){
 
     } else if (q >= 1000 || q<= 1000){
         let valor = (q * m ) / 1000
-        //console.log("valor menos de 10k: " + valor, typeof(valor))
+        console.log("valor menos de 10k: " + valor, typeof(valor))
         
         return valor
 
