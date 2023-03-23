@@ -1,22 +1,50 @@
 
-const url = 'http://localhost:8080/games'
+// var axiosConfig ={
+//     headers: {
+//         Authorization :'Bearer '+localStorage.getItem('token')
+//     }
+// }
+
+
+const url = 'http://localhost:8080/vendas'
 const tabelaCorpo = document.getElementById('table_body')
 let resultados = ''
 
 const modalVendas = new bootstrap.Modal(document.getElementById('modalVendas'))
 const formularioVenda = document.querySelector('form')
-const titulo = document.getElementById('inputTitulo')
-const ano = document.getElementById('inputAno')
-const preco = document.getElementById('inputPreco')
+
+
+var clienteInput = document.getElementById('inputCliente');
+var quantidadeInput = document.getElementById('inputQuantidade');
+var produtoInput = getProduto()
+var milheiroInput = document.getElementById('inputMilheiro')
+var socioInput = getSocio()
+var valorVenda = vendaValor(quantidadeInput, milheiroInput)
+
+
+
 let opcao =''
 
 btnCriar.addEventListener('click', ()=>{
-    titulo.value = ''
-    ano.value = ''
-    preco.value = ''
+
+    // let el = document. getElementById('btnEditar');
+    // //el. classList. remove('teste');
+    // el. classList. add('esconde');
+
+    // let el2 = document. getElementById('btnSalvar');
+    // el2. classList. add('mostra');
+
+    clienteInput.value = ''
+    quantidadeInput.value = ''
+    produtoInput.value = ''
+    milheiroInput = ''
+    socioInput = ''
+    valorVenda = ''
+
     opcao = 'criar'
     modalVendas.show()
 })
+
 
 
 /*             ATUALIZA          */ 
@@ -41,27 +69,32 @@ function updateGame(){
 
     console.log(game, id)
 
-    axios.put('http://localhost:8080/game/'+id, game).then(response =>{
-        if(response.status == 200){
-            alert('game atualizado')
-            //location.reload()
-        }
-    }).catch(err =>{
+    // axios.put('http://localhost:8080/game/'+id, game).then(response =>{
+    //     if(response.status == 200){
+    //         alert('game atualizado')
+    //         modalVendas.hide()
+    //         location.reload()
+    //     }
+    // }).catch(err =>{
 
-    });
+    // });
 }
 
 
 
 function loadForm(linha){
 
-    var btn1 = document.getElementById('btnSalvar');
-    btn1.classList.add('esconde')
+    let el = document. getElementById('btnEditar');
+    el. classList. remove('esconde');
+    el. classList. add('mostra');
 
-    var btn2 = document.getElementById('btnEditar')
-    btn2.classList.remove('esconde')
+    let el2 = document. getElementById('btnSalvar');
+    el2. classList. add('esconde');
+    
 
     modalVendas.show()
+
+    
 
     var id = linha.getAttribute('id')
     var titulo = linha.getAttribute('titulo')
@@ -81,6 +114,8 @@ function loadForm(linha){
 
 
 
+
+
 /*          LISTA DADOS       */ 
     axios.get(url)
     .then(response =>{
@@ -91,9 +126,12 @@ function loadForm(linha){
             vendas.forEach(venda =>{
                 var row = tabelaCorpo.insertRow(-1)
                 row.setAttribute('id', venda.id)
-                row.setAttribute('titulo', venda.title)
-                row.setAttribute('preco', venda.preco)
-                row.setAttribute('ano', venda.ano)
+                row.setAttribute('cliente', venda.cliente)
+                row.setAttribute('quantidade', venda.quantidade)
+                row.setAttribute('produto', venda.produto)
+                row.setAttribute('milheiro', venda.milheiro)
+                row.setAttribute('recebeu', venda.recebeu)
+                row.setAttribute('valorVenda', venda.valorVenda)
 
                 var btnEdit = document.createElement('button')
                 btnEdit.innerHTML ="Editar"
@@ -102,41 +140,51 @@ function loadForm(linha){
                     //console.log(row)
                 })
 
-                var btnDelet = document.createElement('button')
-                btnDelet.innerHTML = "Deletar"
-
-                var td_id = row.insertCell()
-                var td_titulo = row.insertCell()
-                var td_preco = row.insertCell()
-                var td_ano = row.insertCell()
-                var td_acoes = row.insertCell()
-
-                td_id.innerText = venda.id
-                td_id.setAttribute('td_id', venda.id)
-                td_titulo.innerText = venda.title
-                td_titulo.setAttribute('td_titulo', venda.title)
-                td_preco.innerText = venda.preco
-                td_preco.setAttribute('td_preco', venda.preco)
-                td_ano.innerText = venda.ano
-                td_ano.setAttribute('td_ano', venda.ano)
-                td_acoes.appendChild(btnEdit)
-                td_acoes.appendChild(btnDelet)
-
-               
-
-                
-               
                 var deleteBtn = document.createElement('button');
                 deleteBtn.innerHTML='Deletar'
                 deleteBtn.addEventListener('click', function(){
                     
                     deleteGame(row)
+                    //console.log(row)
                 });
 
-                  
-                
 
                 
+
+                var td_id = row.insertCell()
+                var td_cliente = row.insertCell()
+                var td_quantidade = row.insertCell()
+                var td_produto = row.insertCell()
+                var td_milheiro = row.insertCell()
+                var td_recebeu = row.insertCell()
+                var td_valorVenda = row.insertCell()
+                var td_acoes = row.insertCell()
+
+                td_id.innerText = venda.id
+                td_id.setAttribute('td_id', venda.id)
+
+                td_cliente.innerText = venda.cliente
+                td_cliente.setAttribute('td_cliente', venda.cliente)
+
+                td_quantidade.innerText = venda.quantidade
+                td_quantidade.setAttribute('td_quantidade', venda.quantidade)
+
+                td_produto.innerText = venda.produto
+                td_produto.setAttribute('td_produto', venda.produto)
+
+                td_milheiro.innerText = venda.milheiro
+                td_milheiro.setAttribute('td_milheiro', venda.milheiro)
+
+                td_recebeu.innerText = venda.recebeu
+                td_recebeu.setAttribute('td_recebeu', venda.recebeu)
+
+                td_valorVenda.innerText = venda.valorVenda
+                td_recebeu.setAttribute('td_valorVenda', venda.valorVenda)
+
+                
+                td_acoes.appendChild(btnEdit)
+                td_acoes.appendChild(deleteBtn)
+
             })
         
     
@@ -145,162 +193,121 @@ function loadForm(linha){
    
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var axiosConfig ={
-//     headers: {
-//         Authorization :'Bearer '+localStorage.getItem('token')
-//     }
-// }
-
 /*             CRIA             */ 
 function createGame(){
 
-    var btn1 = document.getElementById('btnSalvar');
-    btn1.classList.remove('esconde')
+    
 
-    var btn2 = document.getElementById('btnEditar')
-    btn2.classList.add('mostra')
+    
+   
 
-    var titleInput = document.getElementById('inputTitulo');
-    var anoInput = document.getElementById('inputAno');
-    var precoInput = document.getElementById('inputPreco');
+    var clienteInput = document.getElementById('inputCliente');
 
-    var game = {
-        title: titleInput.value,
-        ano: anoInput.value,
-        preco: precoInput.value,
+    var quantidadeInput = document.getElementById('inputQuantidade').value;
+    let qt = parseFloat(quantidadeInput)
+
+    var produtoInput = getProduto()
+   
+    var milheiroInput = document.getElementById('inputMilheiro').value
+    let m = parseFloat(milheiroInput)
+
+    var socioInput = getSocio()
+
+    //console.log(qt, typeof(qt))
+    //console.log(m, typeof(m))
+    var valorVenda = vendaValor(qt, m)
+
+    var venda = {
+        cliente: clienteInput.value,
+        quantidade: quantidadeInput.value,
+        produto: produtoInput,
+        milheiro: milheiroInput.value,
+        socio: socioInput,
+        valorVenda : valorVenda
     }
 
-    console.log(game);
+    //console.log(venda);
 
-    modalVendas.hide();
-    axios.post('http://localhost:8080/game', game).then(response =>{
+    
+    axios.post('http://localhost:8080/venda', venda).then(response =>{
+        
         if(response.status == 200){
-            alert('game cadastrado"')
-           // location.reload()
+            alert('game cadastrado')
+            modalVendas.hide();
+           location.reload()
         }else{
             console.log('erro')
         }
     }).catch(err =>{
 
     });
+
+    
+    
+    
+    
+
 }
 
 
-// /*             ATUALIZA          */ 
-
-// function updateGame(){
-//     var idInput = document.getElementById('idEdit')
-//     var titleInput = document.getElementById('titleEdit');
-//     var anoInput = document.getElementById('yearEdit');
-//     var precoInput = document.getElementById('priceEdit')
-
-//     var game = {
-//         title: titleInput.value,
-//         ano: anoInput.value,
-//         preco: precoInput.value
-//     }
-
-//     var id = idInput.value
-
-//     axios.put('http://localhost:8080/game/'+id, game).then(response =>{
-//         if(response.status == 200){
-//             alert('game atualizado')
-//             //location.reload()
-//         }
-//     }).catch(err =>{
-
-//     });
-// }
-
-
-// function loadForm(listItem){
-//     var id = listItem.getAttribute('data-id');
-//     var titulo = listItem.getAttribute('data-titulo')
-//     var ano = listItem.getAttribute('data-ano');
-//     var preco = listItem.getAttribute('data-preco')
-
-//     document.getElementById('idEdit').value = id
-//     document.getElementById('titleEdit').value = titulo
-//     document.getElementById('yearEdit').value = ano
-//     document.getElementById('priceEdit').value = preco
-// }
-
-// /*             LISTA            */ 
-// axios.get('http://localhost:8080/games',axiosConfig).then(response =>{
-        
-//     console.log(response)
-
-//     //var games é um arrey recebe as informações da api
-//     //data contem as iformações que foram inseridas no db
-//     var games = response.data
-//     var list = document.getElementById('games');
-
-//     //foreach que vai percorrer todos os itens da api
-//     games.forEach( game =>{
-        
-//         var item = document.createElement('li');
-
-//         item.setAttribute('data-id', game.id);
-//         item.setAttribute('data-titulo', game.title);
-//         item.setAttribute('data-ano', game.ano);
-//         item.setAttribute('data-preco', game.preco)
-
-//         //passo as info da data da api para o item gerado 
-//         //aqui eu tenho que pergar os nomes exatamente como foi criado no db e api
-//         item.innerHTML = "R$ " + game.preco + " - " + game.title + " - " + game.ano ;
-
-//         var deleteBtn = document.createElement('button');
-//         deleteBtn.innerHTML='Deletar'
-//         deleteBtn.addEventListener('click', function(){
-            
-//             deleteGame(item)
-//         });
-
-//         var editBtn = document.createElement('button')
-//         editBtn.innerHTML = 'Editar'
-//         editBtn.addEventListener('click', function(){
-//             loadForm(item)
-//         })
-
-//         item.appendChild(editBtn);
-//         item.appendChild(deleteBtn);
-
-//         list.appendChild(item);
-//     })
-
-// }).catch(error =>{
-//     console.log(error)
-// })
 
 
 // /*   DELETA   */ 
 
 
-// function deleteGame(listItem){
-//     var id = listItem.getAttribute('data-id');
-//     console.log(id);
-//     axios.delete('http://localhost:8080/game/'+id).then(response =>{
-//         alert('game deletado')
-//        //location.reload()
-//     }).catch(err =>{
-//         console.log(err)
-//     })
+function deleteGame(listItem){
+    var id = listItem.getAttribute('id');
+    console.log(id);
+
+    // axios.delete('http://localhost:8080/game/'+id).then(response =>{
+    //     alert('game deletado')
+    //    location.reload()
+    // }).catch(err =>{
+    //     console.log(err)
+    // })
 
 
-// }
+}
 
+
+
+function getProduto(){
+    let inputSelect = document.getElementById('inputProduto')
+    let op = inputSelect.value;
+    
+    return op;   
+}
+
+function getSocio(){
+    let inputSelect = document.getElementById('inputSocio')
+    let op = inputSelect.value;
+    
+    return op;
+}
+
+
+function vendaValor(q, m){
+    
+    if (q >= 10000){
+        let valor =  (q * m) / 1000
+        console.log("valor maior que 10k: " + valor, typeof(valor))
+       
+
+
+        return valor
+
+    } else if (q >= 1000 || q<= 1000){
+        let valor = (q * m ) / 1000
+        console.log("valor menos de 10k: " + valor, typeof(valor))
+        
+        return valor
+
+        
+    }
+        
+
+    
+
+    
+}
     

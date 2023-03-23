@@ -5,11 +5,11 @@ const auth = require('../middleware/auth')
 
 
 const connection = require('../database/connection');
-const Games = require('../models/GameModel');
+const Venda = require('../models/vendaModel');
 
-router.get("/games" ,(req, res) =>{
-    Games.findAll()
-        .then(games => res.json(games))
+router.get("/vendas" ,(req, res) =>{
+    Venda.findAll()
+        .then(vendas => res.json(vendas))
         
         .catch(err =>{
             res.sendStatus(500);
@@ -19,7 +19,7 @@ router.get("/games" ,(req, res) =>{
 
 
 //rota get game especifico
-router.get('/game/:id', (req, res)=>{
+router.get('/venda/:id', (req, res)=>{
     let id= req.params.id
 
     if(isNaN(id)){
@@ -27,13 +27,13 @@ router.get('/game/:id', (req, res)=>{
     }
     else{
         let {id} = req.params
-        Games.findOne({where : {id: id}})
-        .then(game =>{
-            if(game == null){
+        Venda.findOne({where : {id: id}})
+        .then(venda =>{
+            if(venda == null){
                 res.sendStatus(404);
             }
             else{
-                res.json(game)
+                res.json(venda)
             }
         })
         .catch(err =>{
@@ -43,24 +43,36 @@ router.get('/game/:id', (req, res)=>{
     }
 })
 
-/* cria o game*/
-router.post('/game', (req, res) =>{
-    let {title, ano, preco} = req.body;
+/* cria uma venda */
+router.post('/venda', (req, res) =>{
+    let {cliente, quantidade, produto, milheiro, recebeu, valorVenda} = req.body;
+    
+    console.log(req.body)
 
-    if(title == undefined || ano == undefined || preco == undefined){
+
+
+    if(cliente == undefined || quantidade == undefined || produto == undefined || milheiro == undefined || recebeu == undefined || valorVenda == undefined){
         res.sendStatus(400)
-    }else{
-        Games.create({
-            title:title,
-            ano:ano,
-            preco:preco
+       
+
+        Venda.create({
+            cliente:cliente,
+            quantidade: quantidade,
+            produto:produto,
+            milheiro: milheiro,
+            recebeu:recebeu,
+            valorVenda:valorVenda
         })
         .then(()=> res.sendStatus(200))
+    }else{
+
+        
+
     }
 })
 
 /*  atualiza     */ 
-router.put('/game/:id', (req, res) =>{
+router.put('/venda/:id', (req, res) =>{
     let {title, ano, preco} = req.body;
 
     if(isNaN(req.params.id)){
@@ -93,7 +105,7 @@ router.put('/game/:id', (req, res) =>{
     }
 })
 
-router.delete('/game/:id' , (req, res) =>{
+router.delete('/venda/:id' , (req, res) =>{
     if(isNaN(req.params.id)){
         res.sendStatus(400)
     }else{

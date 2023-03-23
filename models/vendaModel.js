@@ -1,18 +1,30 @@
 const Sequelize = require("sequelize");
 const connection = require("../database/connection")
 
-const Game = connection.define('games', {
-    title:{
+const Venda = connection.define('vendas', {
+    cliente:{
         type: Sequelize.STRING(155),
         allowNull: false
-    },ano:{
-        type: Sequelize.INTEGER,
+    },quantidade:{
+        type: Sequelize.DECIMAL(10,2),
         allowNull: false,
     },
-    preco: {
+    produto: {
+        type: Sequelize.STRING(155),
+        allowNull: false
+    },milheiro: {
         type: Sequelize.DECIMAL(10,2),
         allowNull: false
-    },createdAt: {
+    },
+    recebeu: {
+        type: Sequelize.STRING(155),
+        allowNull: false
+    },
+    valorVenda: {
+        type: Sequelize.DECIMAL(10,2),
+        allowNull: false
+    },
+    createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('NOW'),
@@ -24,6 +36,5 @@ const Game = connection.define('games', {
 
 })
 
-
-// Game.sync({force:true})
-module.exports = Game;
+ //Venda.sync({force:true})
+module.exports = Venda;

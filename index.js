@@ -11,11 +11,11 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 //routers
-const gamesController = require('./games/gamesController');
+const vendasController = require('./vendas/vendasController');
 const usersController = require('./user/userController');
 
 //models
-const Game = require('./models/GameModel');
+const Venda = require('./models/vendaModel');
 
 //view engine
 app.set('view engine', 'ejs');
@@ -33,8 +33,8 @@ connection
 });
 
 
-//rotas games
-app.use('/', gamesController);
+//rotas vendas
+app.use('/', vendasController);
 app.use('/', usersController)
 
 
