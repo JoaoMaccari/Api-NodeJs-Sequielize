@@ -48,12 +48,13 @@ router.post('/venda', (req, res) =>{
     let {cliente, quantidade, produto, milheiro, recebeu, valorVenda} = req.body;
     
     console.log(req.body)
-
+    //console.log(res)
 
 
     if(cliente == undefined || quantidade == undefined || produto == undefined || milheiro == undefined || recebeu == undefined || valorVenda == undefined){
         res.sendStatus(400)
        
+    }else{
 
         Venda.create({
             cliente:cliente,
@@ -64,9 +65,6 @@ router.post('/venda', (req, res) =>{
             valorVenda:valorVenda
         })
         .then(()=> res.sendStatus(200))
-    }else{
-
-        
 
     }
 })

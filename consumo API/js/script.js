@@ -97,23 +97,23 @@ function loadForm(linha){
     
 
     var id = linha.getAttribute('id')
-    var titulo = linha.getAttribute('titulo')
-    var preco = linha.getAttribute('preco')
-    var ano = linha.getAttribute('ano')
+    var cliente = linha.getAttribute('cliente')
+    var quantidade = linha.getAttribute('quantidade')
+    var produto = linha.getAttribute('produto')
+    var milheiro = linha.getAttribute('milheiro')
+    var recebeu = linha.getAttribute('recebeu')
+    //var valorVenda = linha.getAttribute('valorVenda')
 
     document.getElementById('inputId').value = id
-    document.getElementById('inputTitulo').value = titulo
-    document.getElementById('inputAno').value = ano
-    document.getElementById('inputPreco').value = preco
+    document.getElementById('inputCliente').value = cliente
+    document.getElementById('inputQuantidade').value = quantidade
+    document.getElementById('inputProduto').value = produto
+    document.getElementById('inputMilheiro').value = milheiro
+    document.getElementById('inputSocio').value = recebeu
     
     
-
-   
     
 }
-
-
-
 
 
 /*          LISTA DADOS       */ 
@@ -196,56 +196,53 @@ function loadForm(linha){
 /*             CRIA             */ 
 function createGame(){
 
-    
-
-    
-   
 
     var clienteInput = document.getElementById('inputCliente');
 
     var quantidadeInput = document.getElementById('inputQuantidade').value;
-    let qt = parseFloat(quantidadeInput)
+    let $quantidade = parseFloat(quantidadeInput)
 
     var produtoInput = getProduto()
    
     var milheiroInput = document.getElementById('inputMilheiro').value
-    let m = parseFloat(milheiroInput)
+    let $milheiro = parseFloat(milheiroInput)
 
     var socioInput = getSocio()
 
     //console.log(qt, typeof(qt))
     //console.log(m, typeof(m))
-    var valorVenda = vendaValor(qt, m)
+    var valorVenda = vendaValor($milheiro, $quantidade)
 
     var venda = {
         cliente: clienteInput.value,
-        quantidade: quantidadeInput.value,
+        quantidade: $quantidade,
         produto: produtoInput,
-        milheiro: milheiroInput.value,
-        socio: socioInput,
+        milheiro:$milheiro,
+        recebeu: socioInput,
         valorVenda : valorVenda
     }
 
-    //console.log(venda);
+    
+
+    console.log(venda);
 
     
-    axios.post('http://localhost:8080/venda', venda).then(response =>{
+    axios.post('http://localhost:8080/venda',venda).then(response =>{
         
-        if(response.status == 200){
-            alert('game cadastrado')
-            modalVendas.hide();
-           location.reload()
-        }else{
-            console.log('erro')
-        }
-    }).catch(err =>{
+        
+        // if(response.status == 200){
+        //     alert('game cadastrado')
+        //     modalVendas.hide();
+        //    location.reload()
+        // }else{
+        //     console.log('erro')
+        // }
 
+        return response
+    }).catch(err =>{
+        console.log(err)
     });
 
-    
-    
-    
-    
 
 }
 
@@ -290,7 +287,7 @@ function vendaValor(q, m){
     
     if (q >= 10000){
         let valor =  (q * m) / 1000
-        console.log("valor maior que 10k: " + valor, typeof(valor))
+       // console.log("valor maior que 10k: " + valor, typeof(valor))
        
 
 
@@ -298,7 +295,7 @@ function vendaValor(q, m){
 
     } else if (q >= 1000 || q<= 1000){
         let valor = (q * m ) / 1000
-        console.log("valor menos de 10k: " + valor, typeof(valor))
+        //console.log("valor menos de 10k: " + valor, typeof(valor))
         
         return valor
 
