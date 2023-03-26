@@ -80,7 +80,7 @@ function updateGame(){
 
     axios.put('http://localhost:8080/venda/'+id, venda).then(response =>{
         if(response.status == 200){
-            alert('game atualizado')
+            alert('Venda atualizada')
             modalVendas.hide()
             location.reload()
         }
@@ -230,13 +230,13 @@ function createGame(){
     axios.post('http://localhost:8080/venda',venda).then(response =>{
         
         
-        // if(response.status == 200){
-        //     alert('game cadastrado')
-        //     modalVendas.hide();
-        //    location.reload()
-        // }else{
-        //     console.log('erro')
-        // }
+        if(response.status == 200){
+            alert('game cadastrado')
+            modalVendas.hide();
+           location.reload()
+        }else{
+            console.log('erro')
+        }
 
         return response
     }).catch(err =>{
@@ -256,12 +256,14 @@ function deleteGame(listItem){
     var id = listItem.getAttribute('id');
     console.log(id);
 
-    // axios.delete('http://localhost:8080/game/'+id).then(response =>{
-    //     alert('game deletado')
-    //    location.reload()
-    // }).catch(err =>{
-    //     console.log(err)
-    // })
+    axios.delete('http://localhost:8080/venda/'+id).then(response =>{
+        
+        alert('Venda deletada')
+       location.reload()
+
+    }).catch(err =>{
+        console.log(err)
+    })
 
 
 }

@@ -71,7 +71,9 @@ router.post('/venda', (req, res) =>{
 
 /*  atualiza     */ 
 router.put('/venda/:id', (req, res) =>{
-    let {title, ano, preco} = req.body;
+    let {cliente, quantidade, produto, milheiro, recebeu, valorVenda} = req.body;
+
+    console.log(req.body)
 
     if(isNaN(req.params.id)){
         res.sendStatus(400);
@@ -79,20 +81,31 @@ router.put('/venda/:id', (req, res) =>{
     else{
         let {id} = req.params
 
-        Games.findOne({where : {id:id}})
-        .then((game) =>{
-            if(game == null){
+        Venda.findOne({where : {id:id}})
+        .then((venda) =>{
+            if(venda == null){
                 res.sendStatus(404)
             }else{
-                if(title != undefined){
-                    Games.update({title: title}, {where:{id, id}})
+                if(cliente != undefined){
+                    Venda.update({cliente: cliente}, {where:{id, id}})
                 }
-                if(ano != undefined){
-                    Games.update({ano: ano}, {where: {id:id}})
+                if(quantidade != undefined){
+                    Venda.update({quantidade: quantidade}, {where: {id:id}})
                 }
-                if(preco!= undefined){
-                    Games.update({preco:preco}, {where: {id:id}})
+                if(produto!= undefined){
+                    Venda.update({produto:produto}, {where: {id:id}})
                 }
+                if(milheiro!= undefined){
+                    Venda.update({milheiro:milheiro}, {where: {id:id}})
+                }
+                if(recebeu!= undefined){
+                    Venda.update({recebeu:recebeu}, {where: {id:id}})
+                }
+                if(valorVenda!= undefined){
+                    
+                    Venda.update({valorVenda:valorVenda}, {where: {id:id}})
+                }
+
                 res.sendStatus(200)
             }
         })
@@ -109,12 +122,12 @@ router.delete('/venda/:id' , (req, res) =>{
     }else{
         let {id} = req.params
 
-        Games.findOne({where: {id:id}})
-        .then(game =>{
-            if(game == null){
+        Venda.findOne({where: {id:id}})
+        .then(venda =>{
+            if(venda == null){
                 res.sendStatus(404)
             }else{
-                Games.destroy({where: {id:id}})
+                Venda.destroy({where: {id:id}})
                 res.sendStatus(200)
             }
             
