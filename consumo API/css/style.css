@@ -9,10 +9,21 @@ table thead{
 
 
 
+
+
 .esconde{
     display: none !important;
 }
 
 .mostra{
     display:inline !important;
+}
+
+.dataTables_filter{
+    margin-bottom: 5px;
+}
+
+.dataTables_length{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
