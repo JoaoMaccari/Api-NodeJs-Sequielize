@@ -176,10 +176,11 @@
     </body>
 
     <script>
-    let table = new DataTable();
+    
 
     $(document).ready(function() {
-        let tabelaVendas = $('#tabelaVendas').DataTable( {
+
+       let tabela= $('#tabelaVendas').DataTable( {
             "ajax":{
                 "url":Url,
                 "dataSrc":""
@@ -205,56 +206,63 @@
                 }
             }]
         } );
-    });
-    $("#btnCriar").click(function(){
-        opcion='crear';            
-        id=null;
-        $("#formArticulos").trigger("reset");
-        $(".modal-header").css( "background-color", "#23272b");
-        $(".modal-header").css( "color", "white" );
-        $(".modal-title").text("Crear Artículo");
-        $('#modalCRUD').modal('show');	    
-    });
-    //EDITAR        
-    $(document).on("click", ".btnEditar", function(){		            
-        opcion='editar';
-        fila = $(this).closest("tr");	        
-        id = parseInt(fila.find('td:eq(0)').text());
-        cliente = fila.find('td:eq(1)').text();
-        quantidade = fila.find('td:eq(2)').text();
-        produto = fila.find('td:eq(3)').text();
-        milheiro = fila.find('td:eq(4)').text();
-        recebeu = fila.find('td:eq(5)').text();
-        valorVenda = fila.find('td:eq(6)').text();   
-        
-        console.log(id)
-        $("#inputId").val(id);
-        $("#inputCliente").val(cliente);
-        $("#inputQuantidade").val(quantidade);
-        $("#inputProduto").val(produto);            
-        $("#inputMilheiro").val(milheiro)
-        $("#inputSocio").val(recebeu)
-        $("#valorVenda").val(valorVenda)
 
-        $('#modalVendas').modal('show');
-       		   
-    });
-    
-    $(document).on("click", ".btnApagar", function(){
-        fila = $(this);           
-        id = parseInt($(this).closest('tr').find('td:eq(0)').text());
-        console.log(id)
-        $.ajax({
-            url:'http://localhost:8080/venda/'+id,
+        $("#btnCriar").click(function(){
+            opcion='crear';            
+            id=null;
+            $("#formArticulos").trigger("reset");
+            $(".modal-header").css( "background-color", "#23272b");
+            $(".modal-header").css( "color", "white" );
+            $(".modal-title").text("Crear Artículo");
+            $('#modalCRUD').modal('show');	    
+        });
+        //EDITAR        
+        $(document).on("click", ".btnEditar", function(){		            
+            opcion='editar';
+            fila = $(this).closest("tr");	        
+            id = parseInt(fila.find('td:eq(0)').text());
+            cliente = fila.find('td:eq(1)').text();
+            quantidade = fila.find('td:eq(2)').text();
+            produto = fila.find('td:eq(3)').text();
+            milheiro = fila.find('td:eq(4)').text();
+            recebeu = fila.find('td:eq(5)').text();
+            valorVenda = fila.find('td:eq(6)').text();   
             
-            method: 'delete',
-            data: {id:id},
-            success: function(){
-                tabelaVendas.row(fila.parents('tr')).remove().draw(); 
+            console.log(id)
+            $("#inputId").val(id);
+            $("#inputCliente").val(cliente);
+            $("#inputQuantidade").val(quantidade);
+            $("#inputProduto").val(produto);            
+            $("#inputMilheiro").val(milheiro)
+            $("#inputSocio").val(recebeu)
+            $("#valorVenda").val(valorVenda)
+    
+            $('#modalVendas').modal('show');
+                      
+        });
+        
+        $(document).on("click", ".btnApagar", function(){
+            fila = $(this);           
+            id = parseInt($(this).closest('tr').find('td:eq(0)').text());
+            console.log(id)
+            $.ajax({
+                url:'http://localhost:8080/venda/'+id,
+                
+                method: 'delete',
+                data: {id:id},
+                success: function(){
+                  tabela.row(fila.parents('tr').remove().draw())
+                
+                }
+            })      
+        })
 
-            }
-        })      
-    })
+
+
+
+    });
+
+
 
             
 
@@ -267,7 +275,7 @@ let id, cliente, quantidade, produto, milheiro, recebeu, valorVenda
       
         
         
-    </script>
+</script>
 
 
 
