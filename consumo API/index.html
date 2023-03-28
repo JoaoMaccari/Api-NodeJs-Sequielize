@@ -176,21 +176,87 @@
     </body>
 
     <script>
-         let table = new DataTable();
+    let table = new DataTable();
 
-            $(document).ready(function() {
-                $('#tabelaVendas').DataTable( {
-                    // "processing": true,
-                    // "serverSide": true,
-                    // "ajax":{
-                    //     "url":Url,
-                    //     "dataSrc":""
-                    // },
-                    "language": {
-                        "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
-                    }
-                } );
-            } );
+    $(document).ready(function() {
+        let tabelaVendas = $('#tabelaVendas').DataTable( {
+            "ajax":{
+                "url":Url,
+                "dataSrc":""
+            },
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+            },
+            "columns":[
+                {"data": "id"},
+                {"data": "cliente"},
+                {"data": "quantidade"},
+                {"data": "produto"},
+                {"data": "milheiro"},
+                {"data": "recebeu"},
+                {"data": "valorVenda"},
+                {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-info btn-sm btnEditar'>Editar</button><button class='btn btn-danger btn-sm btnApagar'>Apagar</button></div></div>"}
+                
+            ],
+            "columnsDefs":[{
+                "targets":[2],
+                render(v){
+                    return Number(v).toFixed(2)
+                }
+            }]
+        } );
+    });
+    $("#btnCriar").click(function(){
+        opcion='crear';            
+        id=null;
+        $("#formArticulos").trigger("reset");
+        $(".modal-header").css( "background-color", "#23272b");
+        $(".modal-header").css( "color", "white" );
+        $(".modal-title").text("Crear Artículo");
+        $('#modalCRUD').modal('show');	    
+    });
+    //EDITAR        
+    $(document).on("click", ".btnEditar", function(){		            
+        opcion='editar';
+        fila = $(this).closest("tr");	        
+        id = parseInt(fila.find('td:eq(0)').text());
+        cliente = fila.find('td:eq(1)').text();
+        quantidade = fila.find('td:eq(2)').text();
+        produto = fila.find('td:eq(3)').text();
+        milheiro = fila.find('td:eq(4)').text();
+        recebeu = fila.find('td:eq(5)').text();
+        valorVenda = fila.find('td:eq(6)').text();   
+        
+        console.log(id)
+        $("#inputId").val(id);
+        $("#inputCliente").val(cliente);
+        $("#inputQuantidade").val(quantidade);
+        $("#inputProduto").val(produto);            
+        $("#inputMilheiro").val(milheiro)
+        $("#inputSocio").val(recebeu)
+        $("#valorVenda").val(valorVenda)
+
+        $('#modalVendas').modal('show');
+       		   
+    });
+    
+    $(document).on("click", ".btnApagar", function(){
+        fila = $(this);           
+        id = parseInt($(this).closest('tr').find('td:eq(0)').text());
+        console.log(id)
+        $.ajax({
+            url:'http://localhost:8080/venda/'+id,
+            
+            method: 'delete',
+            data: {id:id},
+            success: function(){
+                tabelaVendas.row(fila.parents('tr')).remove().draw(); 
+
+            }
+        })      
+    })
+
+            
 
 
 
