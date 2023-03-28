@@ -6,8 +6,6 @@
 // }
 
 
-
-
 const url = 'http://localhost:8080/vendas'
 const tabelaCorpo = document.getElementById('table_body')
 let resultados = ''
