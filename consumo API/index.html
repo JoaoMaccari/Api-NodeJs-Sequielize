@@ -176,15 +176,29 @@
     </body>
 
     <script>
+         let table = new DataTable();
 
-        $(document).ready( function () {
-            $('.odd').hide()
-            $('#tabelaVendas').DataTable({
+            $(document).ready(function() {
+                $('#tabelaVendas').DataTable( {
+                    // "processing": true,
+                    // "serverSide": true,
+                    // "ajax":{
+                    //     "url":Url,
+                    //     "dataSrc":""
+                    // },
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+                    }
+                } );
+            } );
 
-            });
-        } );
 
 
+const Url = 'http://localhost:8080/vendas'
+
+let id, cliente, quantidade, produto, milheiro, recebeu, valorVenda
+
+      
         
         
     </script>
