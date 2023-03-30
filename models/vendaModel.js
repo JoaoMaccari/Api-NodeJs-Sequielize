@@ -36,5 +36,5 @@ const Venda = connection.define('vendas', {
 
 })
 
- //Venda.sync({force:true})
-module.exports = Venda;
+//Venda.sync({force:true})
+module.exports = Venda; 
