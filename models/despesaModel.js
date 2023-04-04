@@ -28,4 +28,7 @@ const Despesa = connection.define("despesas", {
 
 //Despesa.sync({force:true})
 
+
+
+
 module.exports = Despesa;

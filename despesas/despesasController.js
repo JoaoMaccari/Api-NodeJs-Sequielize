@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const connection = require('../database/connection');
-const despesa = require('../models/despesaModel');
+
 const Despesa = require('../models/despesaModel');
 
 
@@ -39,3 +39,6 @@ router.get('/despesa/:id', (req, res)=>{
         })
     }
 })
+
+
+module.exports = router;

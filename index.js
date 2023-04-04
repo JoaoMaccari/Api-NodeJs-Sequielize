@@ -13,9 +13,11 @@ app.use(express.json());
 //routers
 const vendasController = require('./vendas/vendasController');
 const usersController = require('./user/userController');
+const despesaController = require('./despesas/despesasController');
 
 //models
 const Venda = require('./models/vendaModel');
+const Despesa = require('./models/despesaModel');
 
 //view engine
 app.set('view engine', 'ejs');
@@ -35,7 +37,8 @@ connection
 
 //rotas vendas
 app.use('/', vendasController);
-app.use('/', usersController)
+app.use('/', usersController);
+app.use('/', despesaController);
 
 
 
