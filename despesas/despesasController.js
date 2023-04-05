@@ -41,4 +41,31 @@ router.get('/despesa/:id', (req, res)=>{
 })
 
 
+
+router.post('/despesa', (req, res) =>{
+    let {quantidadeDespesa, produto, valor} = req.body;
+    
+    console.log(req.body)
+    //console.log(res)
+
+
+    // if(cliente == undefined || quantidade == undefined || produto == undefined || milheiro == undefined || recebeu == undefined || valorVenda == undefined){
+    //     res.sendStatus(400)
+       
+    // }else{
+
+    //     Venda.create({
+    //         cliente:cliente,
+    //         quantidade: quantidade,
+    //         produto:produto,
+    //         milheiro: milheiro,
+    //         recebeu:recebeu,
+    //         valorVenda:valorVenda
+    //     })
+    //     .then(()=> res.sendStatus(200))
+
+    // }
+})
+
+
 module.exports = router;

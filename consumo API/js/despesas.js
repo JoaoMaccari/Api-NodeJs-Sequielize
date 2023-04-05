@@ -38,3 +38,52 @@ btnCriar.addEventListener('click', ()=>{
     //opcao = 'criar'
     
 })
+
+
+function createGame(){
+
+
+   
+
+    var quantidadeInput = document.getElementById('inputQuantidadeDespesa').value;
+    let $quantidade = parseFloat(quantidadeInput);
+
+    var produtoInput = document.getElementById('inputProduto').value;
+    let $produto = parseFloat(produtoInput);
+
+   
+
+    //console.log(qt, typeof(qt))
+    //console.log(m, typeof(m))
+    var inputValor = document.getElementById("inputValorDespesa").value;
+
+    var despesa = {
+        
+        quantidade: quantidadeInput,
+        produto: produtoInput,
+        valorDespesa : inputValor
+    }
+
+    
+
+    console.log(despesa);
+
+    
+    axios.post('http://localhost:8080/despesa',despesa).then(response =>{
+        
+        
+        if(response.status == 200){
+            alert('despesa cadastrado')
+            modalVendas.hide();
+           location.reload()
+        }else{
+            console.log('erro')
+        }
+
+        return response
+    }).catch(err =>{
+        console.log(err)
+    });
+
+
+}
