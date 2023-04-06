@@ -100,13 +100,14 @@
                                 </button>
                     
                     
-                                <table id="tabelaVendas" class="table mt-2 table-bordered table-striped">
+                                <table id="tabelaDespesa" class="table mt-2 table-bordered table-striped">
                                     <thead>
                                         <tr class="text-center">
                                             <th>ID</th>
                                             <th>Quantidade</th>
                                             <th>Produto</th>
                                             <th>Valor</th>
+                                            <th>Ações</th>
                                         </tr>
                                     </thead>
                     
@@ -209,4 +210,30 @@
         <!-- <script src="js/login.js"></script> -->
 
     </body>
+
+    <script>
+        const Url = 'http://localhost:8080/despesas'
+        $(document).ready(function() {
+
+            let tabela = $("#tabelaDespesa").DataTable({
+                "ajax":{
+                "url":Url,
+                "dataSrc":""
+            },
+                "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+            },
+            "columns":[
+                {"data": "id"},
+                {"data": "quantidade"},
+                {"data": "produto"},
+                {"data": "valor"},
+                {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-info btn-sm btnEditar'>Editar</button><button class='btn btn-danger btn-sm btnApagar'>Apagar</button></div></div>"}
+                
+            ],
+            })
+
+        });
+
+    </script>
 </html>

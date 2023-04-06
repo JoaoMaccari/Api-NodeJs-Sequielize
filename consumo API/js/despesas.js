@@ -66,7 +66,7 @@ function createGame(){
 
     
 
-    console.log(despesa);
+    //console.log(despesa);
 
     
     axios.post('http://localhost:8080/despesa',despesa).then(response =>{

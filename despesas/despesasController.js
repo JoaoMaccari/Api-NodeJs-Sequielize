@@ -7,7 +7,7 @@ const Despesa = require('../models/despesaModel');
 
 
 router.get("/despesas" ,(req, res) =>{
-    Venda.findAll()
+    Despesa.findAll()
         .then(despesas => res.json(despesas))
         
         .catch(err =>{
@@ -43,28 +43,26 @@ router.get('/despesa/:id', (req, res)=>{
 
 
 router.post('/despesa', (req, res) =>{
-    let {quantidadeDespesa, produto, valor} = req.body;
+    let {quantidade, produto, valorDespesa} = req.body;
     
     console.log(req.body)
-    //console.log(res)
+   // console.log(res)
 
 
-    // if(cliente == undefined || quantidade == undefined || produto == undefined || milheiro == undefined || recebeu == undefined || valorVenda == undefined){
-    //     res.sendStatus(400)
+    if(quantidade == undefined || produto == undefined || valorDespesa == undefined ){
+        res.sendStatus(400)
        
-    // }else{
+    }else{
 
-    //     Venda.create({
-    //         cliente:cliente,
-    //         quantidade: quantidade,
-    //         produto:produto,
-    //         milheiro: milheiro,
-    //         recebeu:recebeu,
-    //         valorVenda:valorVenda
-    //     })
-    //     .then(()=> res.sendStatus(200))
+        Despesa.create({
+            quantidade:quantidade,
+            produto: produto,
+            valor:valorDespesa
+        })
+        .then(()=> res.sendStatus(200))
+    }
 
-    // }
+    
 })
 
 
