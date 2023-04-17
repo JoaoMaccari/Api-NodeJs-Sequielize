@@ -32,7 +32,12 @@ const Venda = connection.define('vendas', {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('NOW'),
-    },
+    },DateTime:{
+        type: Sequelize.DataTypes.DATEONLY,
+        get: function (){
+            return moment(this.getDataValue('DateTime')).format('DD.MM.YYYY');
+        }
+    }
 
 })
 
